@@ -6,3 +6,4 @@ python-slugify>=8
 selenium>=4.15
 unicodedata2>=15
 urllib3>=2
+numpy>=1.26
