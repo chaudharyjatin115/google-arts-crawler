@@ -9,6 +9,8 @@ import click
 import pyperclip
 
 from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
 from PIL import Image
 from slugify import slugify
 
@@ -70,13 +72,16 @@ def generate_image(url, size, raise_errors, delay=5):
         "userAgent": "Mozilla/5.0 (Linux; Android 4.2.1; en-us; Nexus 5 Build/JOP40D) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.166 Mobile Safari/535.19"}
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_experimental_option("mobileEmulation", mobile_emulation)
-    chrome_options.add_argument('--headless')
+    chrome_options.add_argument("--headless=new")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--window-size=1920,1080")
+    service=service()
     #chrome_options.add_argument('--disable-gpu')
     browser = webdriver.Chrome(options=chrome_options)
     browser.set_window_position(-5000, 0)
     browser.get(url)
     time.sleep(delay)
-    blobs = browser.find_elements_by_tag_name('img')
+    blobs = browser.find_elements(By.TAG_NAME, 'img')
     print("> Downloading partial images..")
     os.mkdir('blobs')
 
@@ -190,4 +195,3 @@ def cleanup():
 
 if __name__ == '__main__':
     main()
-
