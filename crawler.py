@@ -14,6 +14,20 @@ from selenium.webdriver.chrome.service import Service
 from PIL import Image
 from slugify import slugify
 
+def _ensure_runtime_deps():
+    import importlib
+    import subprocess
+    import sys
+
+    needed = ["selenium", "unicodedata2"]
+
+    for pkg in needed:
+        try:
+            importlib.import_module(pkg)
+        except ImportError:
+            subprocess.check_call([sys.executable, "-m", "pip", "install", pkg])
+
+_ensure_runtime_deps()
 DEFAULT_SIZE = 12000
 DEFAULT_HOST = 'artsandculture.google.com'
 
@@ -75,9 +89,11 @@ def generate_image(url, size, raise_errors, delay=5):
     chrome_options.add_argument("--headless=new")
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--window-size=1920,1080")
-    service=service()
-    #chrome_options.add_argument('--disable-gpu')
-    browser = webdriver.Chrome(options=chrome_options)
+    try:
+        service = Service()
+        browser = webdriver.Chrome(service=service, options=chrome_options)
+    except Exception:
+         browser = webdriver.Chrome(options=chrome_options)        
     browser.set_window_position(-5000, 0)
     browser.get(url)
     time.sleep(delay)
