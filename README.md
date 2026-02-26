@@ -1,88 +1,194 @@
 # Google Arts & Culture crawler
-Google Arts &amp; Culture high quality image downloader
 
-Download images from Google Arts and Culture in high resolution
+Google Arts & Culture high quality image downloader.
 
-Using this script you can download any image from <https://artsandculture.google.com/> in high quality (even 12k!)
+Download images from Google Arts & Culture in high resolution.
 
-_Warning: it's simple and ugly code created at one night. It might be full of bugs._
-_Feel free to do anything you want with this code_
+Using this script you can download many zoomable images from
+https://artsandculture.google.com/ in very high quality (even 12k).
 
+Warning: this project started as a quick script and may still have rough edges.
+Feel free to modify and improve it.
 
+---
+
+## What changed in this fork
+
+* updated for modern Python and Selenium
+* removed deprecated Selenium calls
+* improved Linux compatibility
+* added optional GTK (libadwaita) frontend
+* added Arch Linux packaging support
+* improved headless Chrome stability
+* fixed various small bugs
+
+---
+
+## Requirements
+
+* Python 3.9+
+* Chromium or Google Chrome
+* ChromeDriver (usually bundled with Chromium on Linux)
+
+Python dependencies are listed in `requirements.txt`.
+
+---
 
 ## Installation
 
-### Anconda And  Pipenv
+### Quick setup (recommended, Linux/macOS)
 
-*  Use Anconda to init Python3.6
+```bash
+git clone https://github.com/chaudharyjatin115/google-arts-crawler.git
+cd google-arts-crawler
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
 
-    `conda create -n py36 python=3.6`
+Run:
 
-*  Active Python3.6
+```bash
+python crawler.py
+```
 
-    `conda activate py36`
+---
 
-    `python -V`
+### Arch Linux (package build)
 
-* Install pipenv
+This repository includes Meson + PKGBUILD support.
 
-    `pip install pipenv`
+Build and install:
 
-*  Init pipenv environment
+```bash
+makepkg -si
+```
 
-    `git clone https://github.com/Boquete/google-arts-crawler.git`
-    
-    `cd google-arts-crawler/`
-    
-    `pipenv install`
+Run the installed app:
 
-*  Run 
+```bash
+arts-crawler
+```
 
-    `python crawler.py`
+Required system packages:
 
-    `python api-example.py`
+* chromium
+* gtk4
+* libadwaita
+* python-gobject
 
-### Linux
-* `git clone https://github.com/Boquete/google-arts-crawler.git`
-* `cd google-arts-crawler/`
-* `virtualenv venv`
-* `source venv/bin/activate`
-* `pip3 install -r requirements.txt`
-* `python3 crawler.py`
+---
 
 ### Windows
-* Install Python <https://www.python.org/>
-* Download Chromedriver <https://sites.google.com/a/chromium.org/chromedriver/downloads>
-* Copy Chromedriver to PATH (see #Problems)
-* Open command prompt (Administrator) and run the following commands:
-	cd C:\your\path\to\google-arts-crawler\
-	pip install -r requirements.txt
-	python crawler.py
+
+1. Install Python: https://www.python.org/
+2. Install Google Chrome or Chromium
+3. Install dependencies:
+
+```bat
+pip install -r requirements.txt
+python crawler.py
+```
+
+Make sure ChromeDriver matches your browser version and is in PATH if required.
+
+---
 
 ## Usage
 
+If your clipboard contains a URL with
+`artsandculture.google.com`, the script will try to use it automatically.
 
-If there is a string containing "artsandculture.google.com" in your clipboard the script will attempt to run it as the input url and use the default image size, otherwise you will be asked for:
-* url - url of image, for example: <https://artsandculture.google.com/asset/madame-moitessier/hQFUe-elM1npbw>
-* size (px) - maximum size. Downloaded image will be NOT exact size as *size*, but close enough.
+Otherwise you will be prompted for:
 
-In Windows, feel free to instead use the provided docrawl.bat file for ease of use (e.g. binding it to a keyboard/mouse key with your control software). It is programmed to assume Administrator privileges automatically and can be customized with image size presets.
+* url
+* maximum size (px)
 
+Example URL:
+
+```
+https://artsandculture.google.com/asset/madame-moitessier/hQFUe-elM1npbw
+```
+
+---
+
+## GTK Frontend (optional)
+
+A simple libadwaita GUI is included.
+
+Run locally:
+
+```bash
+python app.py
+```
+
+Or if installed via package:
+
+```bash
+arts-crawler
+```
+
+---
 
 ## Output
-After script ends, your image (.jpg)w ill be located at:
 
-outputs/image_name.jpg
+After the script finishes, the image will be saved to:
 
-## Problems
-1. chromedriver executable needs to be in PATH
+```
+output/image_name.jpg
+```
 
-You can download ChromeDriver here: <https://sites.google.com/a/chromium.org/chromedriver/downloads> .
-Then you have multiple options:
+Note: older upstream versions used `outputs/`. This fork uses `output/`.
 
-* add it to your system path (usually C:\Users\USERNAME\AppData\Local\Programs\Python\PythonXX-XX\)
-* put it in the same directory as your python script
-* specify the location directly via executable_path
-driver = webdriver.Chrome(executable_path='C:/path/to/chromedriver.exe')
+---
 
-( <https://stackoverflow.com/a/40556092/4807171> )
+## Common problems
+
+### chromedriver not found
+
+On Arch Linux, installing `chromium` is usually enough because the driver is bundled.
+
+Check:
+
+```bash
+which chromium
+which chromedriver
+```
+
+On other systems, ensure ChromeDriver matches your Chrome version.
+
+---
+
+### Chrome fails to start
+
+Make sure headless flags are present (already handled in this fork):
+
+* --headless=new
+* --no-sandbox
+* --disable-dev-shm-usage
+
+---
+
+### Nothing downloads
+
+Possible causes:
+
+* Google changed page layout
+* network blocked
+* headless Chrome failed
+* URL is not a zoomable artwork
+
+Try running the crawler directly to see logs:
+
+```bash
+python crawler.py --url "<your url>"
+```
+
+---
+
+## Disclaimer
+
+This project is for educational and personal use.
+Google may change their frontend at any time which can break scraping.
+
+Use responsibly.
