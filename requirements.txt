@@ -1,4 +1,5 @@
 click>=7
+numpy>=1.26
 pillow>=10
 pyperclip>=1.8
 pysocks>=1.7
@@ -6,4 +7,4 @@ python-slugify>=8
 selenium>=4.15
 unicodedata2>=15
 urllib3>=2
-numpy>=1.26
+

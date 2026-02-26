@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=Arts Image Downloader
+Exec=arts-crawler
+Icon=org.example.ArtsCrawler
+Type=Application
+Categories=Graphics;Utility;
+StartupNotify=true
