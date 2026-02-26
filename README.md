@@ -11,6 +11,8 @@ Warning: this project started as a quick script and may still have rough edges.
 Feel free to modify and improve it.
 
 ---
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/1d143a23-8916-4c20-9986-31e9efc32610" />
+
 
 ## What changed in this fork
 
