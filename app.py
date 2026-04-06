@@ -21,7 +21,7 @@ class ArtsCrawlerWindow(Adw.ApplicationWindow):
         root = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         self.set_content(root)
 
-        # header bar (do NOT call set_titlebar on AdwApplicationWindow)
+        # header bar 
         header = Adw.HeaderBar()
         header.set_title_widget(Gtk.Label(label="Arts Image Downloader"))
         root.append(header)
